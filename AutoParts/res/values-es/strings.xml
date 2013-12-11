@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 The CyanogenMod Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Ajustes avanzados</string>
+    <string name="cpu_settings_title">CPU</string>
+    <string name="cpu_mode_title">Modo de energía CPU</string>
+    <string name="cpu_settings_summary">Cambiar el modo de gestión de energía de la CPU</string>
+    <string name="cpu_set_on_boot_title">Establecer al iniciar</string>
+    <string name="cpu_set_on_boot_summary">Restaurar la configuración del procesador al iniciar el sistema</string>
+    <string name="cpu_pwrsv">Ahorro de energía</string>
+    <string name="cpu_bal">Equilibrado</string>
+    <string name="cpu_perf">Rendimiento</string>
+    <string name="display_settings_title">Pantalla</string>
+    <string name="display_msg_failed">Se produjo un error al establecer la propiedad de la pantalla</string>
+    <string name="display_smartdimmer_title">Smartdimmer</string>
+    <string name="display_smartdimmer_summary">Habilitar la tecnología Nvidia Smartdimmer para controlar el brillo del LCD</string>
+    <string name="dock_settings_title">Base</string>
+    <string name="dock_msg_failed">Se produjo un error al establecer la propiedad de la base</string>
+    <string name="dock_power_title">Alimentación</string>
+    <string name="dock_ec_wakeup">El teclado despierta la tablet</string>
+    <string name="dock_ec_wakeup_summary_on">Pulsar cualquier tecla del teclado despertará la tablet</string>
+    <string name="dock_ec_wakeup_summary_off">La tablet no se despertará cuando se pulse una tecla del teclado</string>
+    <string name="dock_kp_notifications_title">Notificaciones</string>
+    <string name="dock_kp_notifications">Mostrar notificaciones del teclado</string>
+    <string name="dock_kp_notifications_summary_on">Las notificaciones del teclado se mostraran en la barra de estado</string>
+    <string name="dock_kp_notifications_summary_off">Las notificaciones del teclado no se mostraran en la barra de estado</string>
+    <string name="kp_wifi_on">Wi-Fi activado</string>
+    <string name="kp_wifi_off">Wi-Fi desactivado</string>
+    <string name="kp_bt_on">Bluetooth activado</string>
+    <string name="kp_bt_off">Bluetooth desactivado</string>
+    <string name="kp_tp_on">TouchPad activado</string>
+    <string name="kp_tp_off">TouchPad desactivado</string>
+    <string name="kp_brightness_manual">Brillo <xliff:g id="brightness">%1$s</xliff:g></string>
+    <string name="kp_brightness_auto">Brillo automático</string>
+    <string name="kp_volume">Volumen <xliff:g id="volume">%1$s</xliff:g></string>
+    <string name="kp_volume_mute_on">Silencio activado</string>
+    <string name="kp_volume_mute_off">Silencio desactivado</string>
+    <string name="kp_media_play_pause">Media REPRODUCIR/DETENER</string>
+    <string name="kp_media_previous">Media ANTERIOR</string>
+    <string name="kp_media_next">Media SIGUIENTE</string>
+    <string name="kp_screenshot">Capturar pantalla</string>
+    <string name="kp_explorer">Navegador</string>
+    <string name="kp_settings">Ajustes</string>
+    <string name="kp_caps_lock_on">Bloqueo de mayúsculas activado</string>
+    <string name="kp_caps_lock_off">Bloqueo de mayúsculas desactivado</string>
+    <string name="gps_settings_title">GPS</string>
+    <string name="lto_download_title">Información satelital (LTO)</string>
+    <string name="lto_download_enabled_title">Descarga automática</string>
+    <string name="lto_download_enabled_summary">Descargar automáticamente la información de posicionamiento satelital si existe alguna conexión de red disponible</string>
+    <string name="lto_download_interval_title">Intervalo de descarga</string>
+    <string name="lto_download_interval_12hours">12 horas</string>
+    <string name="lto_download_interval_1day">1 día</string>
+    <string name="lto_download_interval_3days">3 días</string>
+    <string name="lto_download_interval_1week">1 semana</string>
+    <string name="lto_download_interval_2weeks">2 semanas</string>
+    <string name="lto_download_interval_1month">1 mes</string>
+    <string name="lto_download_file_title">Tipo de fichero a descargar</string>
+    <string name="lto_download_file_7days">Válido para 7 días</string>
+    <string name="lto_download_file_30days">Válido para 30 días</string>
+    <string name="lto_download_wifi_only_title">Sólo Wi-Fi</string>
+    <string name="lto_download_wifi_only_summary">Descargar información de posicionamiento satelital sólo sobre conexiones Wi-Fi</string>
+    <string name="lto_download_now">Descargar ahora</string>
+    <string name="lto_last_download_date">Última descarga: %1$s</string>
+    <string name="lto_last_download_date_failure">Último intento de descarga: %1$s (Error)</string>
+    <string name="lto_last_download_date_never">Última descarga: Nunca</string>
+    <string name="lto_downloading_data">Descargando datos\u2026 (%1$s%%)</string>
+    <string name="lto_downloading_data_notification">Descargando datos LTO\u2026</string>
+</resources>
