@@ -82,7 +82,7 @@ except ImportError:
   from sha import sha as sha1
 
 import common
-import edify_generator
+import tf101_edify_generator as edify_generator
 
 OPTIONS = common.OPTIONS
 OPTIONS.package_key = None
@@ -327,12 +327,12 @@ def SignOutput(temp_zip_name, output_zip_name):
                   whole_file=True)
 
 
-def AppendAssertions(script, info_dict):
-  if OPTIONS.override_device == "auto":
-    device = GetBuildProp("ro.product.device", info_dict)
-  else:
-    device = OPTIONS.override_device
-  script.AssertDevice(device)
+#def AppendAssertions(script, info_dict):
+#  if OPTIONS.override_device == "auto":
+#    device = GetBuildProp("ro.product.device", info_dict)
+#  else:
+#    device = OPTIONS.override_device
+#  script.AssertDevice(device)
 
 
 def MakeRecoveryPatch(input_tmp, output_zip, recovery_img, boot_img):
@@ -414,10 +414,11 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   #if not OPTIONS.omit_prereq:
   #  ts = GetBuildProp("ro.build.date.utc", OPTIONS.info_dict)
-  #  script.AssertOlderBuild(ts)
+  #  ts_text = GetBuildProp("ro.build.date", OPTIONS.info_dict)
+  #  script.AssertOlderBuild(ts, ts_text)
 
-  AppendAssertions(script, OPTIONS.info_dict)
-  device_specific.FullOTA_Assertions()
+#  AppendAssertions(script, OPTIONS.info_dict)
+#  device_specific.FullOTA_Assertions()
   device_specific.FullOTA_InstallBegin()
 
   if OPTIONS.backuptool:
@@ -433,6 +434,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   if "selinux_fc" in OPTIONS.info_dict:
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
 
+  script.ForceUnmount("/system")
   script.FormatPartition("/system")
   script.Mount("/system")
   #script.UnpackPackageDir("recovery", "/system")
@@ -441,17 +443,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   symlinks = CopySystemFiles(input_zip, output_zip)
   script.MakeSymlinks(symlinks)
 
-  boot_img = common.GetBootableImage("boot.img", "boot.img",
-                                     OPTIONS.input_tmp, "BOOT")
+  prebuilt_path = os.path.join(DEV_OUT_DIR, "boot.img")
 
-  cmdblob = ["blobpack_tf", os.path.join(DEV_OUT_DIR,"boot.blob"), "LNX", os.path.join(DEV_OUT_DIR,"boot.img")]
-
-  pblob = common.Run(cmdblob, stdout=subprocess.PIPE)
-  pblob.communicate()
-  assert pblob.returncode == 0, "blobpack_tf of %s image failed" % (
-      os.path.basename(DEV_OUT_DIR),)
-
-  blob = common.File.FromLocalFile("boot.blob", os.path.join(DEV_OUT_DIR,"boot.blob"))
+  blob = common.File.FromLocalFile("boot.img.blob", prebuilt_path)
 
   #recovery_img = common.GetBootableImage("recovery.img", "recovery.img",
   #                                       OPTIONS.input_tmp, "RECOVERY")
@@ -460,8 +454,10 @@ def WriteFullOTAPackage(input_zip, output_zip):
   Item.GetMetadata(input_zip)
   Item.Get("system").SetPermissions(script)
 
+  # common.CheckSize(blob.data, "boot.blob", OPTIONS.info_dict)
   common.ZipWriteStr(output_zip, "boot.blob", blob.data)
   script.ShowProgress(0.2, 0)
+
   if OPTIONS.backuptool:
     script.ShowProgress(0.2, 10)
     script.RunBackup("restore")
@@ -597,19 +593,20 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
   #    "/tmp/recovery.img", "recovery.img", OPTIONS.source_tmp, "RECOVERY",
   #    OPTIONS.source_info_dict)
   #target_recovery = common.GetBootableImage(
-  #   "/tmp/recovery.img", "recovery.img", OPTIONS.target_tmp, "RECOVERY")
+  #    "/tmp/recovery.img", "recovery.img", OPTIONS.target_tmp, "RECOVERY")
   #updating_recovery = (source_recovery.data != target_recovery.data)
   updating_recovery = false
+
   # Here's how we divide up the progress bar:
   #  0.1 for verifying the start state (PatchCheck calls)
   #  0.8 for applying patches (ApplyPatch calls)
   #  0.1 for unpacking verbatim files, symlinking, and doing the
   #      device-specific commands.
 
-  AppendAssertions(script, OPTIONS.target_info_dict)
-  device_specific.IncrementalOTA_Assertions()
+#  AppendAssertions(script, OPTIONS.target_info_dict)
+#  device_specific.IncrementalOTA_Assertions()
 
-  script.Print("Verifying current system...")
+#  script.Print("Verifying current system...")
 
   device_specific.IncrementalOTA_VerifyBegin()
 

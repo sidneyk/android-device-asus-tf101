@@ -1,7 +1,7 @@
 [
   {
     "remote":       "https://github.com",
-    "repository":   "timduru/tf101-katkernel",
+    "repository":   "sidneyk/tf101-katkernel",
     "target_path":  "kernel/asus/tf101",
     "revision":     "dev"
   }

@@ -26,14 +26,14 @@
 
     <!-- Transformer dock storage devices -->
     <!-- Storage description for USBDisk1 storage. [CHAR LIMIT=NONE] -->
-    <add-resource type="string" name="storage_usbdisk1"></add-resource>
-    <string name="storage_usbdisk1">USB Device 1</string>
+    <add-resource type="string" name="storage_usbdisk0"></add-resource>
+    <string name="storage_usbdisk0">USB Device 1</string>
     
     <!-- Storage description for USBDisk2 storage. [CHAR LIMIT=NONE] -->
-    <add-resource type="string" name="storage_usbdisk2"></add-resource>
-    <string name="storage_usbdisk2">USB Device 2</string>
+    <add-resource type="string" name="storage_usbdisk1"></add-resource>
+    <string name="storage_usbdisk1">USB Device 2</string>
 
     <!-- Storage description for SDCard storage. [CHAR LIMIT=NONE] -->
-    <add-resource type="string" name="storage_sdreader"></add-resource>
-    <string name="storage_sdreader">Dock SD CARD</string>
+    <add-resource type="string" name="storage_sd_dock_card"></add-resource>
+    <string name="storage_sd_dock_card">Dock SD CARD</string>
 </resources>

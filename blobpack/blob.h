@@ -1,7 +1,7 @@
 #ifndef _BLOB_H
 #define _BLOB_H
 
-// Previous unknown fields grabbed from 
+// Previous unknown fields grabbed from
 // http://nv-tegra.nvidia.com/gitweb/?p=android/platform/build.git;a=commitdiff;h=0adc4478615891636d8b7c476c20c2014b788537
 
 #define MAGIC       "MSM-RADIO-UPDATE"
