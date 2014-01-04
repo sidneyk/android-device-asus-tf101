@@ -3,6 +3,6 @@
     "remote":       "https://github.com",
     "repository":   "sidneyk/tf101-katkernel",
     "target_path":  "kernel/asus/tf101",
-    "revision":     "dev"
+    "revision":     "master"
   }
 ]
