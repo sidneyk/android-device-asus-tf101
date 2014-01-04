@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Need to change to 'arm-eabi-4.4.3' to build the recovery kernel instead of using prebuilt recovery kernel. This also directs the toolchain to use for normal ROM kernel build
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-L4.7
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-L4.7
 
 $(call inherit-product-if-exists, vendor/asus/tf101/tf101-vendor.mk)
 $(call inherit-product-if-exists, vendor/widevine/tf101/device-tf101.mk)
@@ -27,6 +27,7 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/ramdisk/init.ventana.rc:root/init.ventana.rc \
 	$(LOCAL_PATH)/ramdisk/init.ventana.usb.rc:root/init.ventana.usb.rc \
 	$(LOCAL_PATH)/ramdisk/ueventd.ventana.rc:root/ueventd.ventana.rc \
+	$(LOCAL_PATH)/recovery/init.recovery.ventana.rc:root/init.recovery.ventana.rc \
 	$(LOCAL_PATH)/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Bluetooth configuration files
@@ -69,15 +70,23 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.bq.gpu_to_cpu_unsupported=1 \
     dalvik.vm.dexopt-data-only=1 \
     debug.hwui.render_dirty_regions=false \
-    persist.tegra.nvmmlite=1 \
     ro.zygote.disable_gl_preload=true \
     tf.enable=y \
-    ro.opengles.version=131072
+    ro.opengles.version=131072 \
+	ro.opengles.surface.rgb565=true
 
 # TF101 specific overrides
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.epad.model=TF101 \
     ro.product.model=TF101
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    media.stagefright.enable-player=true \
+    media.stagefright.enable-meta=true \
+    media.stagefright.enable-scan=true \
+    media.stagefright.enable-http=true \
+    media.stagefright.enable-rtsp=true \
+    media.stagefright.enable-record=true
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
@@ -102,6 +111,8 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
 	Camera \
+	audio_policy.tegra \
+    audio.primary.tegra \
     audio.a2dp.default \
     audio.usb.default \
     librs_jni \
@@ -116,7 +127,25 @@ PRODUCT_PACKAGES += \
     libaudioutils \
     libinvensense_mpl \
     blobpack_tf \
-	mischelp
+	mischelp \
+	thtt \
+	ntfs-3g.probe \
+	ntfsfix \
+	ntfs-3g \
+	fsck.exfat \
+	mount.exfat \
+	mkfs.exfat \
+	PhaseBeam \
+	HoloSpiral \
+	fstrim \
+	libnl \
+	iw \
+	tcpdump \
+	dropbear \
+	scp \
+	sftp \
+	libbt-vendor \
+	ssh-keygen
 
 PRODUCT_CHARACTERISTICS := tablet
 
@@ -155,12 +184,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Inherit tablet dalvik settings
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)    
 
-WIFI_BAND := 802_11_BG
+WIFI_BAND := 802_11_ABG
 
 # Prebuilt config files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf
+
+#Bring in camera media effects
+$(call inherit-product-if-exists, frameworks/base/data/videos/VideoPackage2.mk)
+
+$(call inherit-product-if-exists, vendor/eos/filesystem_overlay/overlay.mk)
+DEVICE_PACKAGE_OVERLAYS += vendor/eos/resource_overlay
 
 # $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
 

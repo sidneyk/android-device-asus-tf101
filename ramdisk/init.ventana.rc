@@ -263,15 +263,15 @@ service bugreport /system/bin/dumpstate -d -v -o /data/storage/bugreports/bugrep
 #    umount /mnt/usbdrive
 
 # Recovery daemon: configure MSC partition
-#service recoveryd /system/bin/recoveryd /dev/block/platform/sdhci-tegra.3/by-num/p5
-#    disabled
-#    class main
-#    user root
-#    group root
-#    oneshot
+service recoveryd /system/bin/recoveryd /dev/block/platform/sdhci-tegra.3/by-num/p3
+    disabled
+    class main
+    user root
+    group root
+    oneshot
 
-#on property:sys.shutdown.requested=1recovery
-#    start recoveryd
+on property:sys.shutdown.requested=1recovery
+    start recoveryd
 
 # Prepare TF service
 service tf_daemon /system/bin/tf_daemon -storageDir /data/tf -d
@@ -291,9 +291,9 @@ service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emul
     class late_start
     oneshot
 
-service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
-    class late_start
-    disabled
+#service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -#d /mnt/media_rw/sdcard0 /storage/sdcard0
+#    class late_start
+#    disabled
 
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
