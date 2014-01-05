@@ -21,6 +21,7 @@
 #
 
 LOCAL_PATH := device/asus/tf101
+BOARD_NEEDS_LZMA_MINIGZIP := true
 
 # Audio Options
 USE_PROPRIETARY_AUDIO_EXTENSIONS := true
