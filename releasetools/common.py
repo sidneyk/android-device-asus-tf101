@@ -789,11 +789,11 @@ class DeviceSpecificParams(object):
       return kwargs.get("default", None)
     return getattr(self.module, function_name)(*((self,) + args), **kwargs)
 
-#  def FullOTA_Assertions(self):
+  def FullOTA_Assertions(self):
     """Called after emitting the block of assertions at the top of a
     full OTA package.  Implementations can add whatever additional
     assertions they like."""
-#    return self._DoCall("FullOTA_Assertions")
+    return self._DoCall("FullOTA_Assertions")
 
   def FullOTA_InstallBegin(self):
     """Called at the start of full OTA installation."""

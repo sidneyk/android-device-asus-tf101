@@ -14,7 +14,8 @@
 # limitations under the License.
 
 # Need to change to 'arm-eabi-4.4.3' to build the recovery kernel instead of using prebuilt recovery kernel. This also directs the toolchain to use for normal ROM kernel build
-#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-L4.7
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := linaro-4.8
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
 
 $(call inherit-product-if-exists, vendor/asus/tf101/tf101-vendor.mk)
 $(call inherit-product-if-exists, vendor/widevine/tf101/device-tf101.mk)
@@ -27,7 +28,6 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/ramdisk/init.ventana.rc:root/init.ventana.rc \
 	$(LOCAL_PATH)/ramdisk/init.ventana.usb.rc:root/init.ventana.usb.rc \
 	$(LOCAL_PATH)/ramdisk/ueventd.ventana.rc:root/ueventd.ventana.rc \
-	$(LOCAL_PATH)/recovery/init.recovery.ventana.rc:root/init.recovery.ventana.rc \
 	$(LOCAL_PATH)/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Bluetooth configuration files
@@ -35,6 +35,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/firmware/bcm4329.hcd:system/etc/firmware/bcm4329.hcd \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/bdaddr:system/etc/bluetooth/bdaddr \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
+
+# Netflix fix
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/etc/init.d/98netflix:system/etc/init.d/98netflix
 
 # Misc
 PRODUCT_COPY_FILES += \
@@ -62,6 +66,13 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/vendor/firmware/fw_bcmdhd_apsta.bin:system/vendor/firmware/fw_bcmdhd_apsta.bin \
     $(LOCAL_PATH)/prebuilt/vendor/firmware/fw_bcmdhd_p2p.bin:system/vendor/firmware/fw_bcmdhd_p2p.bin
 
+# Dock firmware
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/prebuilt/etc/firmware/EC/FU-d.cfg:system/etc/firmware/EC/FU-d.cfg \
+	$(LOCAL_PATH)/prebuilt/etc/firmware/EC/SL101-DOCK-0106.rom:system/etc/firmware/EC/SL101-DOCK-0106.rom \
+	$(LOCAL_PATH)/prebuilt/etc/firmware/EC/TF101-DOCK-0213.rom:system/etc/firmware/EC/TF101-DOCK-0213.rom \
+	$(LOCAL_PATH)/prebuilt/etc/firmware/EC/TF101G-DOCK-0213.rom:system/etc/firmware/EC/TF101G-DOCK-0213.rom
+
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15 \
@@ -70,6 +81,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.bq.gpu_to_cpu_unsupported=1 \
     dalvik.vm.dexopt-data-only=1 \
     debug.hwui.render_dirty_regions=false \
+    persist.tegra.nvmmlite=1 \
     ro.zygote.disable_gl_preload=true \
     tf.enable=y \
     ro.opengles.version=131072 \
@@ -107,18 +119,23 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    $(LOCAL_PATH)/prebuilt/etc/permissions/android.hardware.tf101.xml:system/etc/permissions/android.hardware.tf101.xml
+    $(LOCAL_PATH)/prebuilt/etc/permissions/com.asus.hardware.xml:system/etc/permissions/com.asus.hardware.xml \
+    $(LOCAL_PATH)/asusec/org.omnirom.asusec.xml:system/etc/permissions/org.omnirom.asusec.xml
+
+PRODUCT_CHARACTERISTICS := tablet
+
+# we have enough storage space to hold precise GC data
+PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_PACKAGES += \
-	Camera \
-	audio_policy.tegra \
+    audio_policy.tegra \
     audio.primary.tegra \
     audio.a2dp.default \
     audio.usb.default \
     librs_jni \
-	libnetcmdiface \
-	make_ext4fs \
-	setup_fs \
+    libnetcmdiface \
+    make_ext4fs \
+    setup_fs \
     l2ping \
     hcitool \
     bttest \
@@ -126,31 +143,28 @@ PRODUCT_PACKAGES += \
     whisperd \
     libaudioutils \
     libinvensense_mpl \
+    AutoParts \
+    libemoji \
     blobpack_tf \
-	mischelp \
-	thtt \
-	ntfs-3g.probe \
-	ntfsfix \
-	ntfs-3g \
-	fsck.exfat \
-	mount.exfat \
-	mkfs.exfat \
-	PhaseBeam \
-	HoloSpiral \
-	fstrim \
-	libnl \
-	iw \
-	tcpdump \
-	dropbear \
-	scp \
-	sftp \
-	libbt-vendor \
-	ssh-keygen
-
-PRODUCT_CHARACTERISTICS := tablet
-
-# we have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
+    mischelp \
+    thtt \
+    ntfs-3g.probe \
+    ntfsfix \
+    ntfs-3g \
+    fsck.exfat \
+    mount.exfat \
+    mkfs.exfat \
+    fstrim \
+    libnl \
+    iw \
+    tcpdump \
+    dropbear \
+    scp \
+    sftp \
+    libbt-vendor \
+    ssh-keygen \
+    org.omnirom.asusec \
+    libasusec_jni
 
 # media config xml file
 PRODUCT_COPY_FILES += \
@@ -176,10 +190,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf
 
-# Disable SELinux
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.boot.selinux=disabled \
-    ro.build.selinux=0
+# SELinux
+#PRODUCT_PROPERTY_OVERRIDES += \
+#	ro.boot.selinux=permissive
+
+#ADDITIONAL_DEFAULT_PROPERTIES += \
+#	ro.adb.secure=0
 
 # Inherit tablet dalvik settings
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)    
@@ -189,13 +205,15 @@ WIFI_BAND := 802_11_ABG
 # Prebuilt config files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf
+    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+    $(LOCAL_PATH)/media/LMprec_508.emd:system/media/LMprec_508.emd \
+    $(LOCAL_PATH)/media/PFFprec_600.emd:system/media/PFFprec_600.emd \
+    $(LOCAL_PATH)/prebuilt/usr/share/zoneinfo/zoneinfo.dat:system/usr/share/zoneinfo/zoneinfo.dat \
+    $(LOCAL_PATH)/prebuilt/usr/share/zoneinfo/zoneinfo.idx:system/usr/share/zoneinfo/zoneinfo.idx  \
+    $(LOCAL_PATH)/prebuilt/usr/share/zoneinfo/zoneinfo.version:system/usr/share/zoneinfo/zoneinfo.version
 
 #Bring in camera media effects
 $(call inherit-product-if-exists, frameworks/base/data/videos/VideoPackage2.mk)
-
-$(call inherit-product-if-exists, vendor/eos/filesystem_overlay/overlay.mk)
-DEVICE_PACKAGE_OVERLAYS += vendor/eos/resource_overlay
 
 # $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
 

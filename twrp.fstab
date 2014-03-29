@@ -7,9 +7,9 @@
 /boot         emmc   /dev/block/mmcblk0p9
 /recovery     emmc   /dev/block/mmcblk0p8
 /staging      ext4   /dev/block/mmcblk0p4
-/btmac        vfat   /dev/block/mmcblk0p5
+/btmac        auto   /dev/block/mmcblk0p5
 /data         ext4   /dev/block/mmcblk0p7   flags=ignoreblkid
-/sdcard1      vfat   /dev/block/mmcblk1p1	/dev/block/mmcblk1 flags=display="MicroSD";storage;wipeingui;removable
-/external1    vfat   /dev/block/sda1        /dev/block/sda flags=display="external1";storage;wipeingui;removable
-/external2    vfat   /dev/block/sdb1        /dev/block/sdb flags=display="external2";storage;wipeingui;removable
-/external3    vfat   /dev/block/sdc1        /dev/block/sdc flags=display="external3";storage;wipeingui;removable
+/sdcard1      auto   /dev/block/mmcblk1p1	/dev/block/mmcblk1 flags=display="MicroSD";storage;wipeingui;removable
+/external1    auto   /dev/block/sda1        /dev/block/sda flags=display="external1";storage;wipeingui;removable
+/external2    auto   /dev/block/sdb1        /dev/block/sdb flags=display="external2";storage;wipeingui;removable
+/external3    auto   /dev/block/sdc1        /dev/block/sdc flags=display="external3";storage;wipeingui;removable

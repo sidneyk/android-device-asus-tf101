@@ -24,8 +24,9 @@
 /devices/platform/tegra-ehci.2/usb2/2-1/2-1.3 auto  auto defaults voldmanaged=sdcard2:auto
 
 # Recovery only mount points
-/dev/block/mmcblk1p1	/sdcard1		auto defaults recoveryonly
+/dev/block/mmcblk1p1	/sdcard1		vfat defaults recoveryonly
 /dev/block/mmcblk0p3	/misc			emmc defaults recoveryonly
 /dev/block/mmcblk0p4	/staging		ext4 defaults recoveryonly
+/dev/block/mmcblk0p5    /btmac          auto defaults recoveryonly
 boot			/boot			emmc defaults recoveryonly
 recovery		/recovery		emmc defaults recoveryonly

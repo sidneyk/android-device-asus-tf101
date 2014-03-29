@@ -44,13 +44,13 @@
     <!-- Micro SD card -->
     <storage android:mountPoint="/storage/sdcard1"
             android:storageDescription="@string/storage_sd_card"
-            android:removable="true"
-            android:maxFileSize="4096" />
+            android:removable="true" />
+            <!-- android:maxFileSize="4096" /> -->
     <!-- Dock SD Card -->
     <storage android:mountPoint="/storage/sdcard2"
             android:storageDescription="@string/storage_sd_dock_card"
-            android:removable="true"
-            android:maxFileSize="4096" />
+            android:removable="true" />
+            <!-- android:maxFileSize="4096" /> -->
 
     <!-- external USB drive -->
     <storage android:mountPoint="/storage/usbdisk0"
